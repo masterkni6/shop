@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-    getCartItems,
-    removeCartItem,
-    onSuccessBuy
-} from "../../../_actions/user_actions";
+import { getCartItems, removeCartItem, onSuccessBuy } from "../../../_actions/user_actions";
 import UserCardBlock from "./Sections/UserCardBlock";
 import { Result, Empty } from "antd";
 import Axios from "axios";
@@ -95,22 +91,14 @@ function CartPage(props) {
         <div style={{ width: "85%", margin: "3rem auto" }}>
             <h1>My Cart</h1>
             <div>
-                <UserCardBlock
-                    products={props.user.cartDetail}
-                    removeItem={removeFromCart}
-                    calculateTotal={calculateTotal}
-                    setShowTotal={setShowTotal}
-                />
+                <UserCardBlock products={props.user.cartDetail} removeItem={removeFromCart} calculateTotal={calculateTotal} setShowTotal={setShowTotal} />
 
                 {ShowTotal ? (
                     <div style={{ marginTop: "3rem" }}>
                         <h2>Total amount: ${Total} </h2>
                     </div>
                 ) : ShowSuccess ? (
-                    <Result
-                        status="success"
-                        title="Successfully Purchased Items"
-                    />
+                    <Result status="success" title="Successfully Purchased Items" />
                 ) : (
                     <div
                         style={{
@@ -129,14 +117,7 @@ function CartPage(props) {
 
             {/* Paypal Button */}
 
-            {ShowTotal && (
-                <Paypal
-                    toPay={Total}
-                    onSuccess={transactionSuccess}
-                    transactionError={transactionError}
-                    transactionCanceled={transactionCanceled}
-                />
-            )}
+            {ShowTotal && <Paypal toPay={Total} onSuccess={transactionSuccess} transactionError={transactionError} transactionCanceled={transactionCanceled} />}
         </div>
     );
 }

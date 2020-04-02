@@ -49,13 +49,7 @@ export class UploadProductPage extends Component {
             return alert("Please Log in First");
         }
 
-        if (
-            !this.state.title ||
-            !this.state.description ||
-            !this.state.brands ||
-            !this.state.images ||
-            !this.state.price
-        ) {
+        if (!this.state.title || !this.state.description || !this.state.brands || !this.state.images || !this.state.price) {
             return alert("Please first fill all the fields");
         }
 
@@ -97,25 +91,15 @@ export class UploadProductPage extends Component {
                     <br />
                     <br />
                     <label>Title</label>
-                    <Input
-                        onChange={this.handleChangeTitle}
-                        value={this.state.title}
-                    />
+                    <Input onChange={this.handleChangeTitle} value={this.state.title} />
                     <br />
                     <br />
                     <label>Description</label>
-                    <TextArea
-                        onChange={this.handleChangeDecsription}
-                        value={this.state.description}
-                    />
+                    <TextArea onChange={this.handleChangeDecsription} value={this.state.description} />
                     <br />
                     <br />
                     <label>Price($)</label>
-                    <Input
-                        type="number"
-                        onChange={this.handleChangePrice}
-                        value={this.state.price}
-                    />
+                    <Input type="number" onChange={this.handleChangePrice} value={this.state.price} />
                     <br />
                     <br />
                     <select onChange={this.handleChangeBrands}>

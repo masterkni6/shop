@@ -46,13 +46,7 @@ function UploadProductPage(props) {
     const onSubmit = event => {
         event.preventDefault();
 
-        if (
-            !TitleValue ||
-            !DescriptionValue ||
-            !PriceValue ||
-            !BrandValue ||
-            !Images
-        ) {
+        if (!TitleValue || !DescriptionValue || !PriceValue || !BrandValue || !Images) {
             return alert("fill all the fields first!");
         }
         console.log(BrandValue);
@@ -92,18 +86,11 @@ function UploadProductPage(props) {
                 <br />
                 <br />
                 <label>Description</label>
-                <TextArea
-                    onChange={onDescriptionChange}
-                    value={DescriptionValue}
-                />
+                <TextArea onChange={onDescriptionChange} value={DescriptionValue} />
                 <br />
                 <br />
                 <label>Price($)</label>
-                <Input
-                    onChange={onPriceChange}
-                    value={PriceValue}
-                    type="number"
-                />
+                <Input onChange={onPriceChange} value={PriceValue} type="number" />
                 <br />
                 <br />
                 <select onChange={onBrandsSelectChange}>

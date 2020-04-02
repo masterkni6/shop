@@ -1,26 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import Axios from 'axios'
+import React, { useEffect, useState } from "react";
+import Axios from "axios";
 
 function HistoryPage() {
-
-    const [History, setHistory] = useState([])
+    const [History, setHistory] = useState([]);
 
     useEffect(() => {
-
-        Axios.get('/api/users/getHistory')
-            .then(response => {
-                if (response.data.success) {
-                    setHistory(response.data.history)
-                } else {
-                    alert('Failed to get History')
-                }
-            })
-
-    }, [])
+        Axios.get("/api/users/getHistory").then(response => {
+            if (response.data.success) {
+                setHistory(response.data.history);
+            } else {
+                alert("Failed to get History");
+            }
+        });
+    }, []);
 
     return (
-        <div style={{ width: '80%', margin: '3rem auto ' }}>
-            <div style={{ textAlign: 'center' }}>
+        <div style={{ width: "80%", margin: "3rem auto " }}>
+            <div style={{ textAlign: "center" }}>
                 <h1>History</h1>
             </div>
             <br />
@@ -31,7 +27,6 @@ function HistoryPage() {
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Date of Purchase</th>
-
                     </tr>
                 </thead>
 
@@ -47,7 +42,7 @@ function HistoryPage() {
                 </tbody>
             </table>
         </div>
-    )
+    );
 }
 
-export default HistoryPage
+export default HistoryPage;

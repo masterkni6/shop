@@ -69,10 +69,7 @@ function LandingPage() {
                             </a>
                         }
                     >
-                        <Meta
-                            title={product.title}
-                            description={`$${product.price}`}
-                        />
+                        <Meta title={product.title} description={`$${product.price}`} />
                     </Card>
                 </React.Fragment>
             </Col>
@@ -159,20 +156,10 @@ function LandingPage() {
 
             <Row gutter={[16, 16]}>
                 <Col lg={12} xs={24}>
-                    <CheckBox
-                        list={brands}
-                        handleFilters={filters =>
-                            handleFilters(filters, "brands")
-                        }
-                    />
+                    <CheckBox list={brands} handleFilters={filters => handleFilters(filters, "brands")} />
                 </Col>
                 <Col lg={12} xs={24}>
-                    <RadioBox
-                        list={price}
-                        handleFilters={filters =>
-                            handleFilters(filters, "price")
-                        }
-                    />
+                    <RadioBox list={price} handleFilters={filters => handleFilters(filters, "price")} />
                 </Col>
             </Row>
 

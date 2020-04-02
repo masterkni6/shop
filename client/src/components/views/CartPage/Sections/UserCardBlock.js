@@ -17,7 +17,7 @@ function UserCardBlock(props) {
     };
 
     function updateAllCart(event) {
-        console.log(event);
+        window.location.reload(false);
     }
 
     const renderItems = () =>
@@ -35,43 +35,25 @@ function UserCardBlock(props) {
                         max={99}
                         defaultValue={product.quantity}
                         onChange={value => {
-                            dispatch(updateCart(product._id, value)).then(
-                                () => {
-                                    Axios.get("/api/users/userCartInfo").then(
-                                        response => {
-                                            if (response.data.success) {
-                                                if (
-                                                    response.data.carts[0]
-                                                        .length <= 0
-                                                ) {
-                                                    props.setShowTotal(false);
-                                                } else {
-                                                    /* a hack */
-                                                    let cartDetail =
-                                                        response.data.carts[0];
-                                                    let cart =
-                                                        response.data.carts[1];
-                                                    for (
-                                                        let i = 0;
-                                                        i < cart.length;
-                                                        i++
-                                                    ) {
-                                                        cartDetail[i].quantity =
-                                                            cart[i].quantity;
-                                                    }
-                                                    props.calculateTotal(
-                                                        cartDetail
-                                                    );
-                                                }
-                                            } else {
-                                                alert(
-                                                    "Failed to get cart info"
-                                                );
+                            dispatch(updateCart(product._id, value)).then(() => {
+                                Axios.get("/api/users/userCartInfo").then(response => {
+                                    if (response.data.success) {
+                                        if (response.data.carts[0].length <= 0) {
+                                            props.setShowTotal(false);
+                                        } else {
+                                            /* a hack */
+                                            let cartDetail = response.data.carts[0];
+                                            let cart = response.data.carts[1];
+                                            for (let i = 0; i < cart.length; i++) {
+                                                cartDetail[i].quantity = cart[i].quantity;
                                             }
+                                            props.calculateTotal(cartDetail);
                                         }
-                                    );
-                                }
-                            );
+                                    } else {
+                                        alert("Failed to get cart info");
+                                    }
+                                });
+                            });
                         }}
                     />
                     <button onClick={() => props.removeItem(product._id)}>

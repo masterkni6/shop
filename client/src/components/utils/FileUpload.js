@@ -12,16 +12,14 @@ function FileUpload(props) {
         };
         formData.append("file", files[0]);
         //save the Image we chose inside the Node Server
-        Axios.post("/api/product/uploadImage", formData, config).then(
-            response => {
-                if (response.data.success) {
-                    setImages([...Images, response.data.image]);
-                    props.refreshFunction([...Images, response.data.image]);
-                } else {
-                    alert("Failed to save the Image in Server");
-                }
+        Axios.post("/api/product/uploadImage", formData, config).then(response => {
+            if (response.data.success) {
+                setImages([...Images, response.data.image]);
+                props.refreshFunction([...Images, response.data.image]);
+            } else {
+                alert("Failed to save the Image in Server");
             }
-        );
+        });
     };
 
     const onDelete = image => {

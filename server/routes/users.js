@@ -68,16 +68,12 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/logout", auth, (req, res) => {
-    User.findOneAndUpdate(
-        { _id: req.user._id },
-        { token: "", tokenExp: "" },
-        (err, doc) => {
-            if (err) return res.json({ success: false, err });
-            return res.status(200).send({
-                success: true
-            });
-        }
-    );
+    User.findOneAndUpdate({ _id: req.user._id }, { token: "", tokenExp: "" }, (err, doc) => {
+        if (err) return res.json({ success: false, err });
+        return res.status(200).send({
+            success: true
+        });
+    });
 });
 
 router.get("/addToCart", auth, (req, res) => {
@@ -92,15 +88,10 @@ router.get("/addToCart", auth, (req, res) => {
 
         let amount = Number.parseInt(req.query.amount);
         if (duplicate) {
-            User.findOneAndUpdate(
-                { _id: req.user._id, "cart.id": req.query.productId },
-                { $inc: { "cart.$.quantity": amount } },
-                { new: true },
-                () => {
-                    if (err) return res.json({ success: false, err });
-                    res.status(200).json(userInfo.cart);
-                }
-            );
+            User.findOneAndUpdate({ _id: req.user._id, "cart.id": req.query.productId }, { $inc: { "cart.$.quantity": amount } }, { new: true }, () => {
+                if (err) return res.json({ success: false, err });
+                res.status(200).json(userInfo.cart);
+            });
         } else {
             User.findOneAndUpdate(
                 { _id: req.user._id },
@@ -126,15 +117,10 @@ router.get("/addToCart", auth, (req, res) => {
 router.get("/updateCart", auth, (req, res) => {
     User.findOne({ _id: req.user._id }, (err, userInfo) => {
         let amount = Number.parseInt(req.query.amount);
-        User.findOneAndUpdate(
-            { _id: req.user._id, "cart.id": req.query.productId },
-            { $set: { "cart.$.quantity": amount } },
-            { new: true },
-            () => {
-                if (err) return res.json({ success: false, err });
-                res.status(200).json(userInfo.cart);
-            }
-        );
+        User.findOneAndUpdate({ _id: req.user._id, "cart.id": req.query.productId }, { $set: { "cart.$.quantity": amount } }, { new: true }, () => {
+            if (err) return res.json({ success: false, err });
+            res.status(200).json(userInfo.cart);
+        });
     });
 });
 
@@ -175,9 +161,7 @@ router.get("/userCartInfo", auth, (req, res) => {
             .populate("writer")
             .exec((err, cartDetail) => {
                 if (err) return res.status(400).send(err);
-                return res
-                    .status(200)
-                    .json({ success: true, carts: [cartDetail, cart] });
+                return res.status(200).json({ success: true, carts: [cartDetail, cart] });
             });
     });
 });
@@ -209,56 +193,51 @@ router.post("/successBuy", auth, (req, res) => {
     transactionData.data = req.body.paymentData;
     transactionData.product = history;
 
-    User.findOneAndUpdate(
-        { _id: req.user._id },
-        { $push: { history: history }, $set: { cart: [] } },
-        { new: true },
-        (err, user) => {
+    User.findOneAndUpdate({ _id: req.user._id }, { $push: { history: history }, $set: { cart: [] } }, { new: true }, (err, user) => {
+        if (err) return res.json({ success: false, err });
+
+        const payment = new Payment(transactionData);
+        payment.save((err, doc) => {
             if (err) return res.json({ success: false, err });
 
-            const payment = new Payment(transactionData);
-            payment.save((err, doc) => {
-                if (err) return res.json({ success: false, err });
+            //3. Increase the amount of number for the sold information
 
-                //3. Increase the amount of number for the sold information
+            //first We need to know how many product were sold in this transaction for
+            // each of products
 
-                //first We need to know how many product were sold in this transaction for
-                // each of products
-
-                let products = [];
-                doc.product.forEach(item => {
-                    products.push({ id: item.id, quantity: item.quantity });
-                });
-
-                // first Item    quantity 2
-                // second Item  quantity 3
-
-                async.eachSeries(
-                    products,
-                    (item, callback) => {
-                        Product.updateOne(
-                            { _id: item.id },
-                            {
-                                $inc: {
-                                    sold: item.quantity
-                                }
-                            },
-                            { new: false },
-                            callback
-                        );
-                    },
-                    err => {
-                        if (err) return res.json({ success: false, err });
-                        res.status(200).json({
-                            success: true,
-                            cart: user.cart,
-                            cartDetail: []
-                        });
-                    }
-                );
+            let products = [];
+            doc.product.forEach(item => {
+                products.push({ id: item.id, quantity: item.quantity });
             });
-        }
-    );
+
+            // first Item    quantity 2
+            // second Item  quantity 3
+
+            async.eachSeries(
+                products,
+                (item, callback) => {
+                    Product.updateOne(
+                        { _id: item.id },
+                        {
+                            $inc: {
+                                sold: item.quantity
+                            }
+                        },
+                        { new: false },
+                        callback
+                    );
+                },
+                err => {
+                    if (err) return res.json({ success: false, err });
+                    res.status(200).json({
+                        success: true,
+                        cart: user.cart,
+                        cartDetail: []
+                    });
+                }
+            );
+        });
+    });
 });
 
 router.get("/getHistory", auth, (req, res) => {

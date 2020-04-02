@@ -13,9 +13,7 @@ function DetailProductPage(props) {
     const [amount, setAmount] = useState(1);
 
     useEffect(() => {
-        Axios.get(
-            `/api/product/products_by_id?id=${productId}&type=single`
-        ).then(response => {
+        Axios.get(`/api/product/products_by_id?id=${productId}&type=single`).then(response => {
             setProduct(response.data[0]);
         });
     }, []);
@@ -25,10 +23,7 @@ function DetailProductPage(props) {
     };
 
     return (
-        <div
-            className="postPage"
-            style={{ width: "100%", padding: "3rem 4rem" }}
-        >
+        <div className="postPage" style={{ width: "100%", padding: "3rem 4rem" }}>
             <div style={{ display: "flex", justifyContent: "center" }}>
                 <h1>{Product.title}</h1>
             </div>
@@ -40,12 +35,7 @@ function DetailProductPage(props) {
                     <ProductImage detail={Product} />
                 </Col>
                 <Col lg={12} xs={24}>
-                    <ProductInfo
-                        addToCart={addToCartHandler}
-                        detail={Product}
-                        amount={amount}
-                        setAmount={setAmount}
-                    />
+                    <ProductInfo addToCart={addToCartHandler} detail={Product} amount={amount} setAmount={setAmount} />
                 </Col>
             </Row>
         </div>

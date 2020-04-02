@@ -19,43 +19,22 @@ function ProductInfo(props) {
     return (
         <div>
             <Descriptions title="Product Info">
-                <Descriptions.Item label="Price">
-                    {" "}
-                    ${Product.price}
-                </Descriptions.Item>
+                <Descriptions.Item label="Price"> ${Product.price}</Descriptions.Item>
                 <Descriptions.Item label="Total Left">Todo</Descriptions.Item>
-                <Descriptions.Item label="Sold">
-                    {Product.sold}
-                </Descriptions.Item>
-                <Descriptions.Item label="Description">
-                    {" "}
-                    {Product.description}
-                </Descriptions.Item>
+                <Descriptions.Item label="Sold">{Product.sold}</Descriptions.Item>
+                <Descriptions.Item label="Description"> {Product.description}</Descriptions.Item>
             </Descriptions>
 
             <br />
             <br />
-            <div
-                className="input-group mb-3"
-                style={{ justifyContent: "center" }}
-            >
-                <InputNumber
-                    min={1}
-                    max={99}
-                    defaultValue={1}
-                    onChange={onAmountChange}
-                />
+            <div className="input-group mb-3" style={{ justifyContent: "center" }}>
+                <InputNumber min={1} max={99} defaultValue={1} onChange={onAmountChange} />
             </div>
 
             <br />
 
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button
-                    size="large"
-                    shape="round"
-                    type="danger"
-                    onClick={addToCartHandler}
-                >
+                <Button size="large" shape="round" type="danger" onClick={addToCartHandler}>
                     Add to Cart
                 </Button>
             </div>
