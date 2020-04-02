@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 function DetailProductPage(props) {
     const dispatch = useDispatch();
     const productId = props.match.params.productId;
-    const [Product, setProduct] = useState([]);
+    const [product, setProduct] = useState([]);
     const [amount, setAmount] = useState(1);
 
     useEffect(() => {
@@ -25,17 +25,17 @@ function DetailProductPage(props) {
     return (
         <div className="postPage" style={{ width: "100%", padding: "3rem 4rem" }}>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <h1>{Product.title}</h1>
+                <h1>{product.title}</h1>
             </div>
 
             <br />
 
             <Row gutter={[16, 16]}>
                 <Col lg={12} xs={24}>
-                    <ProductImage detail={Product} />
+                    <ProductImage detail={product} />
                 </Col>
                 <Col lg={12} xs={24}>
-                    <ProductInfo addToCart={addToCartHandler} detail={Product} amount={amount} setAmount={setAmount} />
+                    <ProductInfo addToCart={addToCartHandler} detail={product} amount={amount} setAmount={setAmount} />
                 </Col>
             </Row>
         </div>

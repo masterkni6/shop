@@ -115,12 +115,13 @@ router.get("/addToCart", auth, (req, res) => {
 });
 
 router.get("/updateCart", auth, (req, res) => {
+    let cartDetail = JSON.parse(req.query.productId);
     User.findOne({ _id: req.user._id }, (err, userInfo) => {
-        let amount = Number.parseInt(req.query.amount);
-        User.findOneAndUpdate({ _id: req.user._id, "cart.id": req.query.productId }, { $set: { "cart.$.quantity": amount } }, { new: true }, () => {
-            if (err) return res.json({ success: false, err });
-            res.status(200).json(userInfo.cart);
-        });
+        for (const id in cartDetail) {
+            //let cartDetail = JSON.parse(req.query.productId);
+
+            User.findOneAndUpdate({ _id: req.user._id, "cart.id": id }, { $set: { "cart.$.quantity": cartDetail[id] } }, { new: true }, () => {});
+        }
     });
 });
 

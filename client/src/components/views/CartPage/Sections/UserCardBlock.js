@@ -8,6 +8,7 @@ import Axios from "axios";
 function UserCardBlock(props) {
     const dispatch = useDispatch();
     const [amount, setAmount] = React.useState(0);
+    const [cartChanges, setCartChanges] = React.useState({});
 
     const renderCartImage = images => {
         if (images.length > 0) {
@@ -17,7 +18,11 @@ function UserCardBlock(props) {
     };
 
     function updateAllCart(event) {
-        window.location.reload(false);
+        if (Object.keys(cartChanges).length !== 0) {
+            console.log(cartChanges);
+            dispatch(updateCart(cartChanges));
+            window.location.reload(false);
+        }
     }
 
     const renderItems = () =>
@@ -35,13 +40,22 @@ function UserCardBlock(props) {
                         max={99}
                         defaultValue={product.quantity}
                         onChange={value => {
+                            let newChanges = {};
+
+                            for (const v in cartChanges) {
+                                newChanges[v] = cartChanges[v];
+                            }
+                            newChanges[product._id] = value;
+                            setCartChanges(newChanges);
+
+                            /*
                             dispatch(updateCart(product._id, value)).then(() => {
                                 Axios.get("/api/users/userCartInfo").then(response => {
                                     if (response.data.success) {
                                         if (response.data.carts[0].length <= 0) {
                                             props.setShowTotal(false);
                                         } else {
-                                            /* a hack */
+                                            // a hack 
                                             let cartDetail = response.data.carts[0];
                                             let cart = response.data.carts[1];
                                             for (let i = 0; i < cart.length; i++) {
@@ -54,6 +68,7 @@ function UserCardBlock(props) {
                                     }
                                 });
                             });
+                            */
                         }}
                     />
                     <button onClick={() => props.removeItem(product._id)}>
@@ -77,7 +92,7 @@ function UserCardBlock(props) {
                 <tbody>{renderItems()}</tbody>
             </table>
             <button onClick={updateAllCart} className="float-left">
-                Update Cart(todo)
+                Update Cart
             </button>
         </div>
     );
