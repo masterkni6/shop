@@ -4,7 +4,7 @@ import { Icon, Col, Card, Row } from "antd";
 import ImageSlider from "../../utils/ImageSlider";
 import CheckBox from "./Sections/CheckBox";
 import RadioBox from "./Sections/RadioBox";
-import { brands, price } from "./Sections/Datas";
+import { brands, price } from "./Sections/Data";
 import SearchFeature from "./Sections/SearchFeature";
 
 const { Meta } = Card;
@@ -40,7 +40,7 @@ function LandingPage() {
                 }
                 setPostSize(response.data.postSize);
             } else {
-                alert("Failed to fectch product datas");
+                alert("Failed to fectch product data");
             }
         });
     };
