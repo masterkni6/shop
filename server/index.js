@@ -16,7 +16,7 @@ const config = require("./config/key");
 
 const mongoose = require("mongoose");
 const connect = mongoose
-    .connect(mongodb+srv://masterkni6:dEJ5LVUwVdQ9iKYR@cluster0-4nclh.mongodb.net/test?retryWrites=true&w=majority, {
+    .connect("mongodb+srv://masterkni6:dEJ5LVUwVdQ9iKYR@cluster0-4nclh.mongodb.net/test?retryWrites=true&w=majority", {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
