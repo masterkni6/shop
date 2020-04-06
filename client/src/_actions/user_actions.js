@@ -64,10 +64,8 @@ export function addToCart(_id, amount) {
 }
 
 export function getCartItems(cartItems, userCart) {
+    // We need to add quantity data to Product Information that come from Product Collection.
     const request = axios.get(`/api/product/products_by_id?id=${cartItems}&type=array`).then(response => {
-        //Make CartDetail inside Redux Store
-        // We need to add quantity data to Product Information that come from Product Collection.
-
         userCart.forEach(cartItem => {
             response.data.forEach((productDetail, i) => {
                 if (cartItem.id === productDetail._id) {
@@ -78,6 +76,7 @@ export function getCartItems(cartItems, userCart) {
         return response.data;
     });
 
+    // Make CartDetail inside Redux Store
     return {
         type: GET_CART_ITEMS_USER,
         payload: request
