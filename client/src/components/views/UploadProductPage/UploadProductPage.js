@@ -21,6 +21,7 @@ function UploadProductPage(props) {
     const [DescriptionValue, setDescriptionValue] = useState("");
     const [PriceValue, setPriceValue] = useState(0);
     const [BrandValue, setBrandValue] = useState(1);
+    const [AmountValue, setAmountValue] = useState(1);
 
     const [Images, setImages] = useState([]);
 
@@ -36,6 +37,10 @@ function UploadProductPage(props) {
         setPriceValue(event.currentTarget.value);
     };
 
+    const onQtyChange = event => {
+        setAmountValue(event.currentTarget.value);
+    };
+
     const onBrandsSelectChange = event => {
         setBrandValue(event.currentTarget.value);
     };
@@ -46,15 +51,16 @@ function UploadProductPage(props) {
     const onSubmit = event => {
         event.preventDefault();
 
-        if (!TitleValue || !DescriptionValue || !PriceValue || !BrandValue || !Images) {
+        if (!TitleValue || !DescriptionValue || !PriceValue || !BrandValue || !Images || !AmountValue) {
             return alert("fill all the fields first!");
         }
-        console.log(BrandValue);
+
         const variables = {
             writer: props.user.userData._id,
             title: TitleValue,
             description: DescriptionValue,
             price: PriceValue,
+            quantity: AmountValue,
             images: Images,
             brands: BrandValue
         };
@@ -91,6 +97,9 @@ function UploadProductPage(props) {
                 <br />
                 <label>Price($)</label>
                 <Input onChange={onPriceChange} value={PriceValue} type="number" />
+                <br />
+                <label>Quantity</label>
+                <Input onChange={onQtyChange} value={AmountValue} type="number" />
                 <br />
                 <br />
                 <select onChange={onBrandsSelectChange}>
