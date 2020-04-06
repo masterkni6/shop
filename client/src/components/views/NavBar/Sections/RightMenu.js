@@ -31,15 +31,14 @@ function RightMenu(props) {
             </Menu>
         );
     } else {
+        let upload = user.userData && user.userData.isAdmin ? <a href="/product/upload">Upload</a> : null;
         return (
             <Menu className="top__icon" mode={props.mode}>
                 <Menu.Item key="history">
                     <a href="/history">History</a>
                 </Menu.Item>
 
-                <Menu.Item key="upload">
-                    <a href="/product/upload">Upload</a>
-                </Menu.Item>
+                <Menu.Item key="upload">{upload}</Menu.Item>
 
                 <Menu.Item key="cart" style={{ paddingBottom: 3 }}>
                     <Badge count={user.userData && user.userData.cart.length}>
