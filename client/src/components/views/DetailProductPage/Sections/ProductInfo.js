@@ -20,13 +20,15 @@ function ProductInfo(props) {
         <div>
             <Descriptions title="Product Info">
                 <Descriptions.Item label="Price"> ${Product.price}</Descriptions.Item>
-                <Descriptions.Item label="Total Left">Todo</Descriptions.Item>
+                <Descriptions.Item label="Total Left">{Product.quantity}</Descriptions.Item>
                 <Descriptions.Item label="Sold">{Product.sold}</Descriptions.Item>
                 <Descriptions.Item label="Description"> {Product.description}</Descriptions.Item>
             </Descriptions>
 
             <br />
             <br />
+            {"TODO make sure number + in cart is <= Product.quantity"}
+
             <div className="input-group mb-3" style={{ justifyContent: "center" }}>
                 <InputNumber min={1} max={99} defaultValue={1} onChange={onAmountChange} />
             </div>

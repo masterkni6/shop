@@ -15,7 +15,7 @@ function ImageSlider(props) {
                                 marginLeft: "auto",
                                 marginRight: "auto"
                             }}
-                            src={`http://localhost:5000/${image}`}
+                            src={`/${image}`}
                             alt="productImage"
                         />
                     </div>

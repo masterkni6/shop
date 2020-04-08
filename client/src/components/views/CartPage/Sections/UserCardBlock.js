@@ -13,7 +13,7 @@ function UserCardBlock(props) {
     const renderCartImage = images => {
         if (images.length > 0) {
             let image = images[0];
-            return `http://localhost:5000/${image}`;
+            return `/${image}`;
         }
     };
 
@@ -32,8 +32,8 @@ function UserCardBlock(props) {
                 <td>
                     <a href={"/product/" + product._id}>{product.title}</a>
                 </td>
-                <td>{product.quantity} EA</td>
-                <td id={product._id}>$ {product.price} </td>
+                <td>{product.quantity}</td>
+                <td id={product._id}>${product.price} </td>
                 <td>
                     <InputNumber
                         min={1}
@@ -83,9 +83,9 @@ function UserCardBlock(props) {
             <table>
                 <thead>
                     <tr>
-                        <th>Product Name</th>
-                        <th>Product Quantity</th>
-                        <th>Product Price</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
                         <th>Edit Cart</th>
                     </tr>
                 </thead>
