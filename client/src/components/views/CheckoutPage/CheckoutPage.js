@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getCartItems, removeCartItem } from "../../../_actions/user_actions";
+import { getCartItems, removeCartItem, onSuccessBuy } from "../../../_actions/user_actions";
 import UserCardBlock from "./Sections/UserCardBlock";
 import { Result, Empty } from "antd";
 import Axios from "axios";
+import Paypal from "../../utils/Paypal";
 
 function CartPage(props) {
     const dispatch = useDispatch();
     const [Total, setTotal] = useState(0);
     const [ShowTotal, setShowTotal] = useState(false);
+    const [ShowSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
         let cartItems = [];
@@ -37,10 +39,6 @@ function CartPage(props) {
         setShowTotal(true);
     };
 
-    const checkout = function() {
-        props.history.push("/checkout");
-    };
-
     const removeFromCart = productId => {
         dispatch(removeCartItem(productId)).then(() => {
             Axios.get("/api/users/userCartInfo").then(response => {
@@ -58,6 +56,37 @@ function CartPage(props) {
         });
     };
 
+    const transactionSuccess = data => {
+        let variables = {
+            cartDetail: props.user.cartDetail,
+            paymentData: data
+        };
+
+        Axios.post("/api/users/successBuy", variables).then(response => {
+            if (response.data.success) {
+                setShowSuccess(true);
+                setShowTotal(false);
+
+                dispatch(
+                    onSuccessBuy({
+                        cart: response.data.cart,
+                        cartDetail: response.data.cartDetail
+                    })
+                );
+            } else {
+                alert("Failed to buy it");
+            }
+        });
+    };
+
+    const transactionError = () => {
+        console.log("Paypal error");
+    };
+
+    const transactionCanceled = () => {
+        console.log("Transaction canceled");
+    };
+
     return (
         <div style={{ width: "85%", margin: "3rem auto" }}>
             <h1>My Cart</h1>
@@ -71,6 +100,8 @@ function CartPage(props) {
                         <br />
                         <h2>Total amount: ${Total} </h2>
                     </div>
+                ) : ShowSuccess ? (
+                    <Result status="success" title="Successfully Purchased Items" />
                 ) : (
                     <div
                         style={{
@@ -87,10 +118,9 @@ function CartPage(props) {
                 )}
             </div>
 
-            {/* Updates the quantity in DB */}
-            <button onClick={checkout} className="float-left">
-                Continue to Checkout
-            </button>
+            {/* Paypal Button */}
+
+            {ShowTotal && <Paypal toPay={Total} onSuccess={transactionSuccess} transactionError={transactionError} transactionCanceled={transactionCanceled} />}
         </div>
     );
 }
