@@ -16,7 +16,7 @@
   "author": "Duc Hoang",
   "license": "ISC",
   "dependencies": {
-    "async": "^3.2.0",
+    "async": "^3.2.2",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
